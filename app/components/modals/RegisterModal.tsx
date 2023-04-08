@@ -5,6 +5,9 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "@/app/components/modals/Modal";
 import RegistrationForm from "@/app/components/auth/RegistrationForm";
 import SocialAuthContainer from "@/app/components/auth/SocialAuthContainer";
+import {registerUser} from "@/app/service/auth/AuthService";
+import {UserCreateDto} from "@/app/types/user/auth.types";
+import toast from "react-hot-toast";
 
 const RegisterModal=()=>{
     const registerModal=useRegisterModal();
@@ -27,8 +30,16 @@ const RegisterModal=()=>{
         reset();
         registerModal.onClose()
     }
-    const onSubmit:SubmitHandler<FieldValues> = (data)=>{
-        console.log(data)
+    const onSubmit:SubmitHandler<FieldValues> = async (data)=>{
+        const payload=data as UserCreateDto;
+        setIsLoading(true)
+        const createdUser=await registerUser(payload,()=>setIsLoading(false));
+        if(createdUser){
+            toast.success('Successfully Registered');
+            resetAndCloseModal();
+        }else{
+            toast.error('Failed to Register')
+        }
     }
     return (
         <Modal
