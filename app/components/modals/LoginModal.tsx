@@ -9,6 +9,7 @@ import {UserLocalLoginDto} from "@/app/types/user/auth.types";
 import {localLogin} from "@/app/service/auth/AuthService";
 import toast from "react-hot-toast";
 import {useRouter} from "next/navigation";
+import {ConsumerList} from "@/app/types/theme";
 
 const LoginModal=()=>{
     const router=useRouter()
@@ -58,7 +59,7 @@ const LoginModal=()=>{
                 actionLabel='continue'
                 disabled={isLoading}
                 body={<LoginForm errors={errors} register={register} isLoading={isLoading}/>}
-                footer={<SocialAuthContainer/>}
+                footer={<SocialAuthContainer consumer={ConsumerList.login}/>}
             />
         </div>
     )

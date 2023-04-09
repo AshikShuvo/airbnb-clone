@@ -1,6 +1,6 @@
 'use client'
 import {useState} from "react";
-import{FieldValues,SubmitHandler,useForm} from 'react-hook-form';
+import {FieldValues, SubmitHandler, useForm} from 'react-hook-form';
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Modal from "@/app/components/modals/Modal";
 import RegistrationForm from "@/app/components/auth/RegistrationForm";
@@ -8,6 +8,7 @@ import SocialAuthContainer from "@/app/components/auth/SocialAuthContainer";
 import {registerUser} from "@/app/service/auth/AuthService";
 import {UserCreateDto} from "@/app/types/user/auth.types";
 import toast from "react-hot-toast";
+import {ConsumerList} from "@/app/types/theme";
 
 const RegisterModal=()=>{
     const registerModal=useRegisterModal();
@@ -50,7 +51,7 @@ const RegisterModal=()=>{
             onClose={resetAndCloseModal}
             onSubmit={handleSubmit(onSubmit)}
             body={<RegistrationForm register={register} errors={errors} isLoading={isLoading}/>}
-            footer={<SocialAuthContainer />}
+            footer={<SocialAuthContainer consumer={ConsumerList.signup}/>}
         />
     )
 }
