@@ -7,6 +7,7 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import {signOut} from "next-auth/react";
 import {safeUser} from "@/app/types/user/auth.types";
+import toast from "react-hot-toast";
 interface UserManuProps{
     user?:safeUser|null
 }
@@ -17,6 +18,13 @@ const UserMenu:React.FC<UserManuProps> =({user})=>{
     const toggleIsOpen=useCallback(()=>{
         setIsOpen(val=>!val)
     },[])
+    const onRent=useCallback(()=>{
+        if(!user){
+            return loginModalHook.onOpen();
+        }
+    //     open rent modal
+        toast.success("rent modal")
+    },[user,loginModalHook])
     return (
         <div
             className="relative"
@@ -25,7 +33,7 @@ const UserMenu:React.FC<UserManuProps> =({user})=>{
                 className="flex flex-row items-center gap-3"
             >
                 <div
-                    onClick={()=>{}}
+                    onClick={onRent}
                     className="hidden sm:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
                 >
                     Airbnb Your Home
