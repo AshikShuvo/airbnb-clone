@@ -5,10 +5,10 @@ import {useCallback, useState} from "react";
 import MenuItem from "@/app/components/navbar/MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import {User} from "@prisma/client";
 import {signOut} from "next-auth/react";
+import {safeUser} from "@/app/types/user/auth.types";
 interface UserManuProps{
-    user:User
+    user?:safeUser|null
 }
 const UserMenu:React.FC<UserManuProps> =({user})=>{
     const registerModal=useRegisterModal();
@@ -36,7 +36,7 @@ const UserMenu:React.FC<UserManuProps> =({user})=>{
                 >
                     <AiOutlineMenu/>
                     <div className="hidden md:block">
-                        <Avatar/>
+                        <Avatar src={user?.image}/>
                     </div>
                 </div>
             </div>

@@ -3,9 +3,9 @@ import Container from "@/app/components/HOC/Container";
 import Logo from "@/app/components/navbar/Logo";
 import Search from "@/app/components/navbar/Search";
 import UserMenu from "@/app/components/navbar/UserMenu";
-import {User} from "@prisma/client";
+import {safeUser} from "@/app/types/user/auth.types";
 interface NavbarProps{
-    user?:User
+    user?:safeUser|null
 }
 
 const Navbar:React.FC<NavbarProps> =({user})=>{
