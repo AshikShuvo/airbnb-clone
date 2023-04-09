@@ -3,8 +3,12 @@ import Container from "@/app/components/HOC/Container";
 import Logo from "@/app/components/navbar/Logo";
 import Search from "@/app/components/navbar/Search";
 import UserMenu from "@/app/components/navbar/UserMenu";
+import {User} from "@prisma/client";
+interface NavbarProps{
+    user?:User
+}
 
-const Navbar=()=>{
+const Navbar:React.FC<NavbarProps> =({user})=>{
     return (
         <div className="fixed w-full bg-white z-10 shadow-sm">
             <div
@@ -16,7 +20,7 @@ const Navbar=()=>{
                     >
                         <Logo/>
                         <Search/>
-                        <UserMenu/>
+                        <UserMenu user={user}/>
                     </div>
                 </Container>
             </div>
