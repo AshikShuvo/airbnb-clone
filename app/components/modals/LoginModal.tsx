@@ -50,7 +50,6 @@ const LoginModal=()=>{
     }
 
     return (
-        <div>
             <Modal
                 isOpen={loginModalHook.isOpen}
                 onClose={resetAndCloseModal}
@@ -61,7 +60,6 @@ const LoginModal=()=>{
                 body={<LoginForm errors={errors} register={register} isLoading={isLoading}/>}
                 footer={<SocialAuthContainer consumer={ConsumerList.login}/>}
             />
-        </div>
     )
 }
 

@@ -8,12 +8,14 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import {signOut} from "next-auth/react";
 import {safeUser} from "@/app/types/user/auth.types";
 import toast from "react-hot-toast";
+import useRentModal from "@/app/hooks/useRentModal";
 interface UserManuProps{
     user?:safeUser|null
 }
 const UserMenu:React.FC<UserManuProps> =({user})=>{
     const registerModal=useRegisterModal();
     const loginModalHook=useLoginModal();
+    const rentModal=useRentModal();
     const [isOpen,setIsOpen]=useState(false);
     const toggleIsOpen=useCallback(()=>{
         setIsOpen(val=>!val)
@@ -23,7 +25,8 @@ const UserMenu:React.FC<UserManuProps> =({user})=>{
             return loginModalHook.onOpen();
         }
     //     open rent modal
-        toast.success("rent modal")
+        rentModal.onOpen();
+
     },[user,loginModalHook])
     return (
         <div
