@@ -1,19 +1,25 @@
 'use client';
-import Heading from "@/app/components/reusable/Heading";
 import CategoryStep from "@/app/components/rent/CategoryStep";
+import useRentModalControl, {STEPS} from "@/app/hooks/useRentModalControl";
+import LocationStep from "@/app/components/rent/LocationStep";
+import {useEffect, useState} from "react";
 
 const RentStepEmit=()=>{
-
+    const rentModalController=useRentModalControl();
+    const [currentComponent,setCurrentComponent]=useState(CategoryStep)
+    useEffect(()=>{
+        if(rentModalController.step===STEPS.CATEGORY ){
+            setCurrentComponent(CategoryStep);
+        }else if(rentModalController.step===STEPS.LOCATION ){
+            setCurrentComponent(LocationStep);
+        }
+    },[rentModalController.step])
 
     return(
-        <div className="flex flex-col gap-8">
-            <Heading
-                title="Which of these best describes your place?"
-                subTitle="Pick a category"
-            />
-            <CategoryStep />
+        <>
+            {currentComponent}
+        </>
 
-        </div>
     )
 }
 

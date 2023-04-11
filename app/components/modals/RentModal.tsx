@@ -16,7 +16,7 @@ const RentModal=()=>{
             actionLabel={rentModalControl.actionLabel}
             secondaryActionLabel={rentModalControl.secondaryActionLabel}
             secondaryAction={rentModalControl.step===STEPS.CATEGORY?undefined:rentModalControl.onBack}
-            body={<RentStepEmit/>}
+            body={rentModalControl.currentStepComponent}
 
         />
     )
