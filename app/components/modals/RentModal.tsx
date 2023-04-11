@@ -11,8 +11,8 @@ const RentModal=()=>{
         <Modal
             isOpen={rentModal.isOpen}
             title='Airbnb Your Home'
-            onClose={rentModal.onClose}
-            onSubmit={rentModalControl.onNext}
+            onClose={rentModalControl.onClose}
+            onSubmit={rentModalControl.onSubmit}
             actionLabel={rentModalControl.actionLabel}
             secondaryActionLabel={rentModalControl.secondaryActionLabel}
             secondaryAction={rentModalControl.step===STEPS.CATEGORY?undefined:rentModalControl.onBack}

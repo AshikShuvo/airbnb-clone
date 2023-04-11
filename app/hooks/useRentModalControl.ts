@@ -4,6 +4,13 @@ import CategoryStep from "@/app/components/rent/CategoryStep";
 import LocationStep from "@/app/components/rent/LocationStep";
 import InfoStep from "@/app/components/rent/InfoStep";
 import ImageStep from "@/app/components/rent/ImageStep";
+import DescriptionStep from "@/app/components/rent/DescriptionStep";
+import PriceStep from "@/app/components/rent/PriceStep";
+import {submitRentModalForm} from "@/app/service/rent/RentService";
+import {CreateListingDto} from "@/app/types/rent";
+import {useRouter} from "next/navigation";
+import useRentModal from "@/app/hooks/useRentModal";
+import toast from "react-hot-toast";
 
 export enum STEPS{
     CATEGORY=0,
@@ -14,6 +21,7 @@ export enum STEPS{
     PRICE=5
 }
 export const useRentModalForm=()=>{
+    const [isLoading,setIsLoading]=useState(false);
     const {
         register,
         handleSubmit,
@@ -60,15 +68,42 @@ export const useRentModalForm=()=>{
         guestCount,
         roomCount,
         bathroomCount,
-        imageSrc
+        imageSrc,
+        isLoading,
+        setIsLoading,
+        reset
     }
 }
 const useRentModalControl=()=>{
+    const rentModal=useRentModal();
+    const router=useRouter()
+
     const rentModalForm=useRentModalForm()
-    console.log("data",rentModalForm)
     const [step,setStep]=useState(STEPS.CATEGORY)
     const onBack=()=>setStep(val=>val-1);
     const onNext=()=>setStep(val=>val+1);
+    const onClose=()=>{
+        rentModal.onClose();
+        rentModalForm.reset();
+        setStep(STEPS.CATEGORY)
+    }
+    const onSubmit=rentModalForm.handleSubmit(async (data)=>{
+        if(step!==STEPS.PRICE){
+            return onNext();
+        }
+        const payload=data as CreateListingDto;
+        rentModalForm.setIsLoading(true)
+        const res=await submitRentModalForm(payload)
+        rentModalForm.setIsLoading(false)
+        if(res){
+            router.refresh()
+            onClose()
+            toast.success('Listing Created Successfully')
+        }else {
+            toast.error('Faield to create Listing')
+        }
+
+    })
 
     const actionLabel=useMemo(()=>{
         if(step===STEPS.PRICE){
@@ -77,16 +112,8 @@ const useRentModalControl=()=>{
         return 'Next'
     },[step])
     const secondaryActionLabel=useMemo(()=>{
-        if(step===STEPS.PRICE){
-            return undefined;
-        }
         return 'Back'
     },[step]);
-    // const currentStepComponent=useMemo(()=>{
-    //
-    // },[step])
-
-
 
     const currentStepComponent = useMemo(()=>{
         if(step===STEPS.CATEGORY){
@@ -113,14 +140,27 @@ const useRentModalControl=()=>{
                 rentModalForm
             })
         }
+        if(step===STEPS.DESCRIPTION){
+            return React.createElement(DescriptionStep,{
+                key:'DESCRIPTION',
+                rentModalForm
+            })
+        }
+        if(step===STEPS.PRICE){
+            return React.createElement(PriceStep,{
+                key:'PRICE',
+                rentModalForm
+            })
+        }
     },[step, rentModalForm])
     return{
         step,
-        onNext,
         onBack,
         actionLabel,
         secondaryActionLabel,
-        currentStepComponent
+        currentStepComponent,
+        onSubmit,
+        onClose
     }
 }
 
