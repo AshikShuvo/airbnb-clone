@@ -2,6 +2,8 @@ import React, {useEffect, useMemo, useState} from "react";
 import {FieldValues, useForm} from "react-hook-form";
 import CategoryStep from "@/app/components/rent/CategoryStep";
 import LocationStep from "@/app/components/rent/LocationStep";
+import InfoStep from "@/app/components/rent/InfoStep";
+import ImageStep from "@/app/components/rent/ImageStep";
 
 export enum STEPS{
     CATEGORY=0,
@@ -96,6 +98,18 @@ const useRentModalControl=()=>{
         if(step===STEPS.LOCATION){
             return React.createElement(LocationStep,{
                 key:'LOCATION',
+                rentModalForm
+            })
+        }
+        if(step===STEPS.INFO){
+            return React.createElement(InfoStep,{
+                key:'INFO',
+                rentModalForm
+            })
+        }
+        if(step===STEPS.IMAGES){
+            return React.createElement(ImageStep,{
+                key:'IMAGES',
                 rentModalForm
             })
         }
